@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">RecyclerViewExercises</string>
     <string name="item_name">Item name</string>
+    <string name="edit_recyclerview_item">Edit RecyclerView Item</string>
+    <string name="enter_new_name">Enter new name</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>
