@@ -38,6 +38,11 @@ class ItemAdapter(context: Context, val onClickListener: ItemClickListener) :
         }
     }
 
+    fun updateItem(position: Int, name: String) {
+        items[position].itemName = name
+        notifyItemChanged(position)
+    }
+
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(items[position], position)
     }

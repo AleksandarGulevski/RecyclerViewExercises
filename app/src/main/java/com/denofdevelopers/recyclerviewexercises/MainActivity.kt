@@ -1,14 +1,17 @@
 package com.denofdevelopers.recyclerviewexercises
 
-import android.graphics.drawable.ColorDrawable
+import android.app.Dialog
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.denofdevelopers.recyclerviewexercises.databinding.ActivityMainBinding
+import com.denofdevelopers.recyclerviewexercises.databinding.PopupEditItemBinding
 
 class MainActivity : AppCompatActivity(), ItemAdapter.ItemClickListener {
 
@@ -41,30 +44,36 @@ class MainActivity : AppCompatActivity(), ItemAdapter.ItemClickListener {
     }
 
     override fun onItemClickListener(item: Item, position: Int) {
-        val itemBackground: ColorDrawable =
-            binding.recycler[position].background as ColorDrawable
-        if (itemBackground.color == ContextCompat.getColor(this, R.color.white)) {
-            binding.recycler.children.iterator().forEach { item ->
-                item.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.white
-                    )
-                )
-            }
-            binding.recycler[position].setBackgroundColor(
-                ContextCompat.getColor(this, R.color.teal_200)
+        val dialogBinding: PopupEditItemBinding =
+            PopupEditItemBinding.inflate(
+                LayoutInflater.from(this)
             )
-        } else {
-            binding.recycler.children.iterator().forEach { item ->
-                item.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.white
-                    )
-                )
+        val dialog = Dialog(this)
+        val itemNameEdit = dialogBinding.itemNameEdit
+        val save = dialogBinding.save
+        val cancel = dialogBinding.cancel
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+
+        save.setOnClickListener {
+            if (!TextUtils.isEmpty(itemNameEdit.text.toString())) {
+                adapter.updateItem(position, itemNameEdit.text.toString())
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "Please enter a new name", Toast.LENGTH_SHORT).show()
             }
         }
+
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun getDummyList(): ArrayList<Item> {
