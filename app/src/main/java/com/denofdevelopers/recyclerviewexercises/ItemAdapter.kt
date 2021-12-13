@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.denofdevelopers.recyclerviewexercises.databinding.ItemRecyclerBinding
 
-class ItemAdapter(context: Context, val onClickListener: ItemClickListener) :
+class ItemAdapter(context: Context, val onLongClickListener: OnLongCLickListener) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     private val items: ArrayList<Item> = ArrayList()
 
-    interface ItemClickListener {
-        fun onItemClickListener(item: Item, position: Int)
+    interface OnLongCLickListener {
+        fun onItemLongClickListener(item: Item, position: Int)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -58,8 +58,9 @@ class ItemAdapter(context: Context, val onClickListener: ItemClickListener) :
                 itemName.text = item.itemName
             }
 
-            container.setOnClickListener {
-                onClickListener.onItemClickListener(item, position)
+            container.setOnLongClickListener {
+                onLongClickListener.onItemLongClickListener(item, position)
+                true
             }
         }
     }

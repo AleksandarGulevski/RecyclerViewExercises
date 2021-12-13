@@ -13,6 +13,7 @@
         android:layout_marginStart="16dp"
         android:textSize="22sp"
         android:text="@string/item_name"
+        android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />

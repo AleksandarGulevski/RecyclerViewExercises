@@ -8,9 +8,10 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.widget.Toast
 import com.denofdevelopers.recyclerviewexercises.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), ItemAdapter.ItemClickListener {
+class MainActivity : AppCompatActivity(), ItemAdapter.OnLongCLickListener {
 
     private lateinit var binding: ActivityMainBinding
     private var adapter = ItemAdapter(this, this)
@@ -40,31 +41,8 @@ class MainActivity : AppCompatActivity(), ItemAdapter.ItemClickListener {
         )
     }
 
-    override fun onItemClickListener(item: Item, position: Int) {
-        val itemBackground: ColorDrawable =
-            binding.recycler[position].background as ColorDrawable
-        if (itemBackground.color == ContextCompat.getColor(this, R.color.white)) {
-            binding.recycler.children.iterator().forEach { item ->
-                item.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.white
-                    )
-                )
-            }
-            binding.recycler[position].setBackgroundColor(
-                ContextCompat.getColor(this, R.color.teal_200)
-            )
-        } else {
-            binding.recycler.children.iterator().forEach { item ->
-                item.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.white
-                    )
-                )
-            }
-        }
+    override fun onItemLongClickListener(item: Item, position: Int) {
+        Toast.makeText(this, "${item.itemName} long clicked", Toast.LENGTH_SHORT).show()
     }
 
     private fun getDummyList(): ArrayList<Item> {
